@@ -1,8 +1,9 @@
 import React from 'react'
+import './Calendar.css'
 
 function Calendar() {
   return (
-    <div>Calendar</div>
+    <div className='calendar-container'>Comming Soon</div>
   )
 }
 

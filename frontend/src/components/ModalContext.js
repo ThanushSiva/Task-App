@@ -4,6 +4,7 @@ export const ModalContext = createContext();
 
 function ModalProvider({ children }) {
     const [modalState, setModalState] = useState(false);
+    const [modalType, setModalType] = useState('');
 
 
     useEffect(() => {
@@ -12,7 +13,7 @@ function ModalProvider({ children }) {
     }, [modalState])
 
     return (
-        <ModalContext.Provider value={{ modalState, setModalState }}>
+        <ModalContext.Provider value={{ modalState, setModalState, modalType, setModalType }}>
             {children}
         </ModalContext.Provider>
     )

@@ -3,10 +3,11 @@ import './Dashboard.css'
 import { ModalContext } from './ModalContext'
 
 function Dashboard() {
-  const { setModalState } = useContext(ModalContext);
+  const { setModalState, setModalType } = useContext(ModalContext);
 
   function show() {
     setModalState(true);
+    setModalType('form');
   }
 
   return (
