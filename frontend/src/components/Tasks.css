@@ -1,0 +1,46 @@
+.task-container {
+  padding: 1rem;
+}
+
+.tasks {
+  display: grid;
+  gap: 1rem;
+}
+
+.task {
+  background-color: #c3c3c3;
+}
+
+.task-header {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding-block: 0.2rem;
+}
+
+.task-list {
+  background-color: #fff;
+  display: flex;
+  gap: 1rem;
+  padding-block: 0.2rem;
+}
+
+.heading {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding-block: 0.2rem;
+}
+
+.task-options {
+  display: flex;
+  justify-content: space-between;
+  padding-block: 1rem;
+}
+
+input[type="checkbox"] {
+  accent-color: orangered;
+}
+
+.empty-list {
+  padding: 1rem;
+  text-align: center;
+}

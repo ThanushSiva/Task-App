@@ -1,0 +1,88 @@
+.dashboard-container {
+  padding: 2rem;
+  position: relative;
+}
+
+.user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stats {
+  margin-block: 1rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  text-align: center;
+}
+
+.stats-data {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.task-data-container {
+  height: 70vh;
+  padding: 1rem;
+  border-radius: 0.4rem;
+  background-color: #dedede;
+  overflow-y: scroll;
+  display: grid;
+  gap: 1rem;
+}
+
+.task-data-card {
+  background-color: #fff;
+  padding: 0.5rem;
+  border-radius: 0.4rem;
+}
+
+.task-data-card p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.task-data-container::-webkit-scrollbar {
+  display: none;
+}
+
+.task-cards {
+  padding-block: 1rem;
+  padding-inline: 3rem;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 0.8rem;
+}
+
+.open {
+  color: rgb(255, 125, 125);
+  border-left: 5px solid rgb(255, 125, 125);
+}
+
+.close {
+  color: rgb(114, 255, 128);
+  border-left: 5px solid rgb(114, 255, 128);
+}
+
+.total {
+  color: rgb(140, 125, 255);
+  border-left: 5px solid rgb(140, 125, 255);
+}
+
+.task-add {
+  border: 0;
+  padding: .3rem;
+  height: 3rem;
+  width: 3rem;
+  font-size: 2rem;
+  background-color: orangered;
+  color: #fff;
+  border-radius: 10rem;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+}
