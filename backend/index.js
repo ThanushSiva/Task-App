@@ -3,7 +3,7 @@ const { urlencoded } = require("express");
 const express = require("express");
 const app = express();
 const connect = require("./config/db");
-const router = require("./router/authRouter");
+const router = require("./router/router");
 const cors = require("cors");
 
 app.use(express.json());
