@@ -1,45 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { TaskContext } from './TaskContext'
 import './Tasks.css'
 
 function Tasks() {
-  const [taskArray, setTaskArray] = useState([
-    {
-      user: "thanu",
-      title: "watch movie",
-      date: "2022-12-21T14:10:30Z",
-      priority: "high",
-      status: "open", //dynamic 
-      tasks: [{
-        taskTitle: "task1",
-        isDone: false
-      }, {
-        taskTitle: "task1",
-        isDone: false
-      }, {
-        taskTitle: "task1",
-        isDone: true
-      }]
-    }, {
-      user: "thanu",
-      title: "play",
-      date: "2022-12-20T14:10:30Z",
-      priority: "low",
-      status: "closed", //dynamic 
-      tasks: [{
-        taskTitle: "task1",
-        isDone: false
-      }, {
-        taskTitle: "task1",
-        isDone: true
-      }]
-    }
-  ])
+  const { tasks } = useContext(TaskContext)
 
   const [secArray, setSecArray] = useState([])
 
   useEffect(() => {
-    setSecArray(taskArray)
-  }, [taskArray])
+    setSecArray(tasks)
+  }, [tasks])
 
   // current date
 
@@ -61,19 +31,19 @@ function Tasks() {
     let tempArray;
     const option = e.target.value;
     switch (option) {
-      case "ALL": tempArray = taskArray
+      case "ALL": tempArray = tasks
         break;
-      case "OPEN": tempArray = taskArray.filter((e) => e.status === 'open')
+      case "OPEN": tempArray = tasks.filter((e) => e.status === 'open')
         break;
-      case "OPENTODAY": tempArray = taskArray.filter((e) => e.status === 'open' && (new Date(e.date).toISOString().replace(/T.*/, '').split('-').reverse().join('-')) === today)
+      case "OPENTODAY": tempArray = tasks.filter((e) => e.status === 'open' && (new Date(e.date).toISOString().replace(/T.*/, '').split('-').reverse().join('-')) === today)
         break;
-      case "CLOSED": tempArray = taskArray.filter((e) => e.status === 'closed')
+      case "CLOSED": tempArray = tasks.filter((e) => e.status === 'closed')
         break;
-      case "CLOSEDTODAY": tempArray = taskArray.filter((e) => e.status === 'closed' && (new Date(e.date).toISOString().replace(/T.*/, '').split('-').reverse().join('-')) === today)
+      case "CLOSEDTODAY": tempArray = tasks.filter((e) => e.status === 'closed' && (new Date(e.date).toISOString().replace(/T.*/, '').split('-').reverse().join('-')) === today)
         break;
-      case "INPROGRESS": tempArray = taskArray.filter((e) => e.status === 'in progress')
+      case "INPROGRESS": tempArray = tasks.filter((e) => e.status === 'in-progress')
         break;
-      case "INPROGRESSTODAY": tempArray = taskArray.filter((e) => e.status === 'in progress' && (new Date(e.date).toISOString().replace(/T.*/, '').split('-').reverse().join('-')) === today)
+      case "INPROGRESSTODAY": tempArray = tasks.filter((e) => e.status === 'in-progress' && (new Date(e.date).toISOString().replace(/T.*/, '').split('-').reverse().join('-')) === today)
         break;
     }
     setSecArray(tempArray);
@@ -124,7 +94,7 @@ function Tasks() {
                   return (
                     <div className="task-list">
                       <input type="checkbox" defaultChecked={e2.isDone} />
-                      <div className="task-name">{e2.taskTitle}</div>
+                      <div className="task-name">{e2.taskName}</div>
                     </div>
                   )
                 })}

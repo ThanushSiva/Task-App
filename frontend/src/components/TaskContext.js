@@ -9,7 +9,7 @@ function TaskProvider({ children }) {
     useEffect(() => {
         (async function (){
             const tempTasks = await axios.post("http://localhost:4000/read");
-            setTasks(tempTasks.data.userTasks);
+            setTasks(tempTasks.data.userTasks.sort((a,b) => new Date (a.date) - new Date(b.date)));
         })();
     }, [])
 
