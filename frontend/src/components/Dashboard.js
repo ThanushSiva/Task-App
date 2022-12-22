@@ -72,7 +72,7 @@ function Dashboard() {
             <div className="task-data-container">
               {no && no.length !== 0 ? no.map((e) => {
                 return (
-                  <div className="task-data-card">
+                  <div className={`task-data-card ${e.priority + '-card'}`}>
                     <h3>{e.title}</h3>
                     {e.tasks && e.tasks.map((e) => {
                       return (

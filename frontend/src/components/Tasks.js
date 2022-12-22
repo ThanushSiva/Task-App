@@ -83,8 +83,8 @@ function Tasks() {
               <div className="task-header">
                 <div className="task-title">{e1.title}</div>
                 <div className="task-date">{new Date(e1.date).toISOString().replace(/T.*/, '').split('-').reverse().join('-')}</div>
-                <div className="task-priority">{e1.priority}</div>
-                <div className="task-status">{e1.status}</div>
+                <div className="task-priority"><div className={`circle ${e1.priority + '-circle'}`}></div>{e1.priority}</div>
+                <div className={`task-status badge ${e1.status + '-badge'}`}>{e1.status}</div>
                 <div className="task-action">
                   <button>Edit</button><button>Delete</button>
                 </div>

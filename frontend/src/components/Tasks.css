@@ -38,6 +38,12 @@
   padding-block: 1rem;
 }
 
+.task-priority {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
 input[type="checkbox"] {
   accent-color: orangered;
 }
@@ -45,4 +51,41 @@ input[type="checkbox"] {
 .empty-list {
   padding: 1rem;
   text-align: center;
+}
+
+.badge {
+  color: #fff;
+  width: 7rem;
+  display: grid;
+  place-items: center;
+  border-radius: .6rem;
+  font-size: .7rem;
+}
+
+.open-badge {
+  background-color: red;
+}
+
+.closed-badge {
+  background-color: green;
+}
+
+.in-progress-badge {
+  background-color: yellow;
+}
+
+.circle {
+  width: .4rem;
+  height: .4rem;
+  border-radius: 100%;
+}
+
+.high-circle {
+  background-color: red;
+}
+.medium-circle {
+  background-color: green;
+}
+.low-circle {
+  background-color: grey;
 }
