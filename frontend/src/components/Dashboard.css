@@ -29,7 +29,8 @@
   border-radius: 0.4rem;
   background-color: #dedede;
   overflow-y: scroll;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
 }
 
@@ -85,4 +86,8 @@
   position: fixed;
   bottom: 2rem;
   right: 2rem;
+}
+
+.no-list-task {
+  text-align: center;
 }
