@@ -29,3 +29,12 @@ exports.readTask = async (req, res) => {
         res.status(400).json({ error: error.message })
     }
 }
+
+exports.deleteTask = async (req, res) => {
+    try {
+        const deleteTasks = await Task.findByIdAndDelete(req.body._id);
+        res.status(200).json({ deleteTasks })
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+}

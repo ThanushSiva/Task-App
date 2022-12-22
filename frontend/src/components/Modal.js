@@ -4,6 +4,8 @@ import './Modal.css'
 import { ModalContext } from './ModalContext';
 import { TaskContext } from './TaskContext';
 import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Modal({ children }) {
     const [noTask, setNoTask] = useState(1);
@@ -37,6 +39,7 @@ function Modal({ children }) {
                     <button type="reset" onClick={resetHandler}>Reset</button>
                 </form>
             </div>
+            <ToastContainer />
         </div>
     )
 
@@ -114,6 +117,16 @@ function Modal({ children }) {
         try {
             const res = await axios.post("http://localhost:4000/create", formData);
             if (res.status === 200) {
+                toast.success('Task Updated', {
+                    position: "top-right",
+                    autoClose: 500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
                 const newTask = res.data.task;
                 setTasks((prev) => {
                     return [
@@ -128,7 +141,16 @@ function Modal({ children }) {
                 e.target.form.tasklist.value = ''
             }
         } catch (error) {
-            console.log(error.message);
+            toast.error(error.message, {
+                position: "top-right",
+                autoClose: 500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
         }
 
     }

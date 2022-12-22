@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { TaskContext } from './TaskContext'
+import { ToastContainer, toast } from 'react-toastify'
 import './Tasks.css'
+import 'react-toastify/dist/ReactToastify.css'
+import axios from 'axios'
 
 function Tasks() {
-  const { tasks } = useContext(TaskContext)
+  const { tasks, setTasks } = useContext(TaskContext)
 
   const [secArray, setSecArray] = useState([])
 
@@ -57,6 +60,39 @@ function Tasks() {
     console.log(secArray);
   }
 
+  async function deleteHandler(_id) {
+    try {
+      const res = await axios.post("http://localhost:4000/delete", { _id })
+      if (res.status === 200) {
+        toast.success('Task Deleted', {
+          position: "top-right",
+          autoClose: 500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setTasks((prev) => {
+          return prev.filter((e) => e._id !== _id);
+        })
+      }
+    } catch (error) {
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+    }
+  }
+
   return (
     <div className='task-container'>
       <div className="task-options">
@@ -94,7 +130,7 @@ function Tasks() {
                 <div className="task-priority"><div className={`circle ${e1.priority + '-circle'}`}></div>{e1.priority}</div>
                 <div className={`task-status badge ${e1.status + '-badge'}`}>{e1.status}</div>
                 <div className="task-action">
-                  <button>Edit</button><button>Delete</button>
+                  <button>Edit</button><button onClick={() => deleteHandler(e1._id)}>Delete</button>
                 </div>
               </div>
               <div className="task-lists">
@@ -111,6 +147,7 @@ function Tasks() {
           )
         }) : <div className='empty-list'>No List available</div>}
       </div>
+      <ToastContainer />
     </div>
   )
 }
