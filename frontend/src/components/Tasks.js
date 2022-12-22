@@ -49,6 +49,14 @@ function Tasks() {
     setSecArray(tempArray);
   }
 
+  function searchHandler(e) {
+    const searchString = e.target.value.trim();
+    let tempArray;
+    tempArray = secArray.filter((e) => e.title.includes(searchString) || e.tasks.find((e) => e.taskName.includes(searchString)))
+    setSecArray(tempArray);
+    console.log(secArray);
+  }
+
   return (
     <div className='task-container'>
       <div className="task-options">
@@ -66,7 +74,7 @@ function Tasks() {
           </div>
         </div>
         <div className="search">
-          <input type="text" placeholder='search' />
+          <input type="text" placeholder='search' onChange={searchHandler} />
         </div>
       </div>
       <div className="heading">
@@ -79,7 +87,7 @@ function Tasks() {
       <div className="tasks">
         {secArray && secArray.length ? secArray.map((e1) => {
           return (
-            <div className="task">
+            <div className="task" key={e1._id}>
               <div className="task-header">
                 <div className="task-title">{e1.title}</div>
                 <div className="task-date">{new Date(e1.date).toISOString().replace(/T.*/, '').split('-').reverse().join('-')}</div>
@@ -92,7 +100,7 @@ function Tasks() {
               <div className="task-lists">
                 {e1.tasks.map((e2) => {
                   return (
-                    <div className="task-list">
+                    <div className="task-list" key={e2._id}>
                       <input type="checkbox" defaultChecked={e2.isDone} />
                       <div className="task-name">{e2.taskName}</div>
                     </div>

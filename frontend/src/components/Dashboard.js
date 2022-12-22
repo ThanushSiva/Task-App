@@ -5,27 +5,11 @@ import { TaskContext } from './TaskContext';
 
 function Dashboard() {
   const { setModalState, setModalType } = useContext(ModalContext);
-  const { tasks } = useContext(TaskContext);
+  const { tasks, today } = useContext(TaskContext);
 
   // useEffect(() => {
   //   tasks && taskCounts();
   // }, [tasks])
-
-  // current date
-
-  var today = new Date();
-  var dd = today.getDate();
-  var mm = today.getMonth() + 1;
-  var yyyy = today.getFullYear();
-  if (dd < 10) {
-    dd = '0' + dd;
-  }
-  if (mm < 10) {
-    mm = '0' + mm;
-  }
-  today = dd + '-' + mm + '-' + yyyy;
-
-  // current date
 
   function show() {
     setModalState(true);
@@ -34,13 +18,14 @@ function Dashboard() {
 
   let noOpen, noClosedToday, noOPToday, noOpenToday;
 
-  (function taskCounts() {
+  function taskCounts() {
     noOpenToday = tasks && tasks.filter((e) => (e.status === 'open' || e.status === 'in-progress') && (new Date(e.date).toISOString().replace(/T.*/, '').split('-').reverse().join('-')) === today)
     noClosedToday = tasks && tasks.filter((e) => e.status === 'closed' && (new Date(e.date).toISOString().replace(/T.*/, '').split('-').reverse().join('-')) === today)
     noOPToday = tasks && tasks.filter((e) => ((new Date(e.date).toISOString().replace(/T.*/, '').split('-').reverse().join('-')) === today))
     noOpen = tasks && tasks.filter((e) => e.status === 'open')
-    console.log(noClosedToday);
-  })()
+  }
+
+  taskCounts();
 
   return (
     <div className="dashboard-container">
@@ -67,23 +52,23 @@ function Dashboard() {
         </div>
       </div>
       <div className="stats-data">
-        {[noOpenToday, noClosedToday, noOPToday, noOpen].map((no) => {
+        {[noOpenToday, noClosedToday, noOPToday, noOpen].map((no, i) => {
           return (
-            <div className="task-data-container">
+            <div className="task-data-container" key={i}>
               {no && no.length !== 0 ? no.map((e) => {
                 return (
-                  <div className={`task-data-card ${e.priority + '-card'}`}>
+                  <div className={`task-data-card ${e.priority + '-card'}`} key={e._id}>
                     <h3>{e.title}</h3>
                     {e.tasks && e.tasks.map((e) => {
                       return (
-                        <p>{e.taskName}</p>
+                        <p key={e._id}>{e.taskName}</p>
                       )
                     })}
                     <hr />
                     <p>{new Date(e.date).toISOString().replace(/T.*/, '').split('-').reverse().join('-')}</p>
                   </div>
                 )
-              }): <div className="no-list-task">No Item in Task</div>}
+              }) : <div className="no-list-task">No Item in Task</div>}
             </div>
           )
         })}

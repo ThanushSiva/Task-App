@@ -2,11 +2,14 @@ import React, { useContext, useState } from 'react'
 import ReactDOM from 'react-dom';
 import './Modal.css'
 import { ModalContext } from './ModalContext';
+import { TaskContext } from './TaskContext';
+import axios from 'axios'
 
 function Modal({ children }) {
     const [noTask, setNoTask] = useState(1);
     const [errMsg, setErrMsg] = useState('');
     const { modalState, setModalState, modalType } = useContext(ModalContext);
+    const { tasks, setTasks } = useContext(TaskContext);
 
     const EDIT_MODAL = (
         <div className="modal-container" onClick={(e) => e.target.className !== 'modal' ? setModalState(false) : ''}>
@@ -25,13 +28,13 @@ function Modal({ children }) {
                         Medium<input type="radio" name='priority' value='medium' />
                         Low<input type="radio" name='priority' value='low' /><br />
                     </div>
-                    {Array.from(Array(noTask)).map((e) => {
-                        return (<><input key={e} className="tasklist" type="text" placeholder='Task' name="tasklist" /><br /></>)
+                    {Array.from(Array(noTask)).map((e, i) => {
+                        return (<div className="safe" key={i}><input className="tasklist" type="text" placeholder='Task' name="tasklist" /><br /></div>)
                     })}
                     {errMsg && <div className="error" >{errMsg}</div>}
                     <button onClick={noTaskHandler}>Add Task</button>
                     <button type="submit" onClick={submitHandler}>Submit</button>
-                    <button type="reset" onClick={() => setNoTask(1)}>Reset</button>
+                    <button type="reset" onClick={resetHandler}>Reset</button>
                 </form>
             </div>
         </div>
@@ -70,7 +73,12 @@ function Modal({ children }) {
         }
     }
 
-    function submitHandler(e) {
+    function resetHandler() {
+        setNoTask(1)
+        setErrMsg('')
+    }
+
+    async function submitHandler(e) {
         e.preventDefault();
         setErrMsg('')
         const taskList = [];
@@ -95,6 +103,7 @@ function Modal({ children }) {
             title: e.target.form.title.value,
             date: e.target.form.date.value,
             priority: e.target.form.priority.value,
+            status: "open",
             tasks: taskList
         }
 
@@ -102,7 +111,26 @@ function Modal({ children }) {
             return false
         }
 
-        console.log(formData);
+        try {
+            const res = await axios.post("http://localhost:4000/create", formData);
+            if (res.status === 200) {
+                const newTask = res.data.task;
+                setTasks((prev) => {
+                    return [
+                        ...prev,
+                        newTask
+                    ]
+                })
+                e.target.form.title.value = ''
+                e.target.form.date.value = ''
+                e.target.form.priority.value = null
+                resetHandler()
+                e.target.form.tasklist.value = ''
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+
     }
 
     return modalState ? ReactDOM.createPortal(modalType === 'form' ? FORM_MODAL : EDIT_MODAL, document.querySelector('#modal')) : '';
