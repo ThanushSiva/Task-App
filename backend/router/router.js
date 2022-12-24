@@ -1,6 +1,6 @@
 const express = require("express");
 const { home, loginUser, signupUser } = require("../controller/authController");
-const { createTask, readTask, deleteTask, updateTaskStatus } = require("../controller/taskController");
+const { createTask, readTask, deleteTask, updateTask, updateTaskStatus } = require("../controller/taskController");
 
 const router = express.Router();
 
@@ -10,6 +10,7 @@ router.post('/signup', signupUser)
 router.post('/create', createTask)
 router.post('/read', readTask)
 router.post('/delete', deleteTask)
+router.post('/replace', updateTask)
 router.post('/update-task', updateTaskStatus)
 
 module.exports = router;

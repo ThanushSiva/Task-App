@@ -41,9 +41,11 @@ exports.deleteTask = async (req, res) => {
 
 exports.updateTask = async (req, res) => {
     try {
-        // const updateTasks = await Task.
+        const replaceData = req.body.formData
+        const updateTask = await Task.findOneAndReplace({ _id: req.body._id }, { email: "thanush@gmail.com", ...replaceData }, { new: true })
+        res.status(200).json({ updateTask })
     } catch (error) {
-
+        res.status(400).json({ error: error.message })
     }
 }
 
@@ -73,7 +75,6 @@ exports.updateTaskStatus = async (req, res) => {
                 open += 1;
             }
         })
-        console.log(open, count, closed);
         if (count === open) {
             status = 'open'
         } else if (count === closed) {
@@ -81,8 +82,6 @@ exports.updateTaskStatus = async (req, res) => {
         } else {
             status = 'in-progress'
         }
-
-        console.log(status);
 
         const task = await Task.findOneAndUpdate(
             {

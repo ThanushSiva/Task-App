@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { TaskContext } from './TaskContext'
+import { ModalContext } from './ModalContext'
 import { ToastContainer, toast } from 'react-toastify'
 import './Tasks.css'
 import 'react-toastify/dist/ReactToastify.css'
@@ -7,6 +8,7 @@ import axios from 'axios'
 
 function Tasks() {
   const { tasks, setTasks } = useContext(TaskContext)
+  const { setModalState, setModalType } = useContext(ModalContext)
 
   const [secArray, setSecArray] = useState([])
 
@@ -99,6 +101,11 @@ function Tasks() {
     }
   }
 
+  async function editHandler(e) {
+    setModalState(true);
+    setModalType(e);
+  }
+
   async function deleteHandler(e, _id) {
     e.currentTarget.disabled = true;
     try {
@@ -170,7 +177,7 @@ function Tasks() {
                 <div className="task-priority"><div className={`circle ${e1.priority + '-circle'}`}></div>{e1.priority}</div>
                 <div className={`task-status badge ${e1.status + '-badge'}`}>{e1.status}</div>
                 <div className="task-action">
-                  <button className='edit'>Edit</button><button className='delete' onClick={(e) => deleteHandler(e, e1._id)}>Delete</button>
+                  <button className='edit' onClick={() => editHandler(e1)}>Edit</button><button className='delete' onClick={(e) => deleteHandler(e, e1._id)}>Delete</button>
                 </div>
               </div>
               <div className="task-lists">
