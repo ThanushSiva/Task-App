@@ -55,12 +55,52 @@ function Tasks() {
   function searchHandler(e) {
     const searchString = e.target.value.trim();
     let tempArray;
-    tempArray = secArray.filter((e) => e.title.includes(searchString) || e.tasks.find((e) => e.taskName.includes(searchString)))
+    tempArray = tasks.filter((e) => e.title.includes(searchString) || e.tasks.find((e) => e.taskName.includes(searchString)))
     setSecArray(tempArray);
-    console.log(secArray);
   }
 
-  async function deleteHandler(_id) {
+  async function updateTaskStatus(e, task_id, tasks_id, isDone) {
+    e.target.disabled = true;
+    e.target.classList.add('rotate');
+    try {
+      const res = await axios.post("http://localhost:4000/update-task", { task_id, tasks_id, isDone })
+      if (res.status === 200) {
+        toast.success('Task status updated', {
+          position: "top-right",
+          autoClose: 500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        const tempTask = res.data.task;
+        setTasks((prev) => {
+          return (prev.map((e) => e._id !== tempTask._id ? e : tempTask))
+        })
+        e.target.disabled = false;
+        e.target.classList.remove('rotate');
+      }
+    } catch (error) {
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      e.target.disabled = false;
+      e.target.classList.remove('rotate');
+      e.target.checked = !isDone;
+    }
+  }
+
+  async function deleteHandler(e, _id) {
+    e.currentTarget.disabled = true;
     try {
       const res = await axios.post("http://localhost:4000/delete", { _id })
       if (res.status === 200) {
@@ -89,7 +129,7 @@ function Tasks() {
         progress: undefined,
         theme: "light",
       });
-
+      e.currentTarget.disabled = false;
     }
   }
 
@@ -130,14 +170,14 @@ function Tasks() {
                 <div className="task-priority"><div className={`circle ${e1.priority + '-circle'}`}></div>{e1.priority}</div>
                 <div className={`task-status badge ${e1.status + '-badge'}`}>{e1.status}</div>
                 <div className="task-action">
-                  <button>Edit</button><button onClick={() => deleteHandler(e1._id)}>Delete</button>
+                  <button className='edit'>Edit</button><button className='delete' onClick={(e) => deleteHandler(e, e1._id)}>Delete</button>
                 </div>
               </div>
               <div className="task-lists">
                 {e1.tasks.map((e2) => {
                   return (
                     <div className="task-list" key={e2._id}>
-                      <input type="checkbox" defaultChecked={e2.isDone} />
+                      <input type="checkbox" defaultChecked={e2.isDone} onClick={(e) => updateTaskStatus(e, e1._id, e2._id, !e2.isDone)} />
                       <div className="task-name">{e2.taskName}</div>
                     </div>
                   )

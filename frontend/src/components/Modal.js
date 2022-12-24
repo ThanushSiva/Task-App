@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function Modal({ children }) {
     const [noTask, setNoTask] = useState(1);
     const [errMsg, setErrMsg] = useState('');
+    const [disable, setDisable] = useState(false)
     const { modalState, setModalState, modalType } = useContext(ModalContext);
     const { tasks, setTasks } = useContext(TaskContext);
 
@@ -35,7 +36,7 @@ function Modal({ children }) {
                     })}
                     {errMsg && <div className="error" >{errMsg}</div>}
                     <button onClick={noTaskHandler}>Add Task</button>
-                    <button type="submit" onClick={submitHandler}>Submit</button>
+                    <button type="submit" onClick={submitHandler} disabled={disable}>{disable ? 'Loading...': 'Submit' }</button>
                     <button type="reset" onClick={resetHandler}>Reset</button>
                 </form>
             </div>
@@ -83,6 +84,7 @@ function Modal({ children }) {
 
     async function submitHandler(e) {
         e.preventDefault();
+        setDisable(true);
         setErrMsg('')
         const taskList = [];
         if (noTask > 1) {
@@ -152,6 +154,8 @@ function Modal({ children }) {
                 theme: "light",
             });
         }
+
+        setDisable(false);
 
     }
 

@@ -38,3 +38,66 @@ exports.deleteTask = async (req, res) => {
         res.status(400).json({ error: error.message })
     }
 }
+
+exports.updateTask = async (req, res) => {
+    try {
+        // const updateTasks = await Task.
+    } catch (error) {
+
+    }
+}
+
+exports.updateTaskStatus = async (req, res) => {
+    try {
+        if (!req.body.task_id || !req.body.tasks_id || req.body.isDone === undefined) {
+            throw Error("Something went wrong")
+        }
+        const TaskStatus = await Task.findOneAndUpdate(
+            {
+                "_id": req.body.task_id,
+                "tasks._id": req.body.tasks_id
+            },
+            {
+                "$set": { "tasks.$.isDone": req.body.isDone }
+            },
+            {
+                new: true
+            }
+        )
+        let open = 0, closed = 0, count = 0, status = '';
+        TaskStatus.tasks.map((e) => {
+            count += 1;
+            if (e.isDone === true) {
+                closed += 1;
+            } else {
+                open += 1;
+            }
+        })
+        console.log(open, count, closed);
+        if (count === open) {
+            status = 'open'
+        } else if (count === closed) {
+            status = 'closed'
+        } else {
+            status = 'in-progress'
+        }
+
+        console.log(status);
+
+        const task = await Task.findOneAndUpdate(
+            {
+                "_id": TaskStatus._id
+            },
+            {
+                "$set": { status }
+            },
+            {
+                new: true
+            }
+        )
+
+        res.status(200).json({ task })
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+}
