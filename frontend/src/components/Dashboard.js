@@ -1,15 +1,14 @@
 import React, { useContext, useEffect } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
 import './Dashboard.css'
 import { ModalContext } from './ModalContext'
 import { TaskContext } from './TaskContext';
+import axios from 'axios'
 
 function Dashboard() {
   const { setModalState, setModalType } = useContext(ModalContext);
-  const { tasks, today } = useContext(TaskContext);
-
-  // useEffect(() => {
-  //   tasks && taskCounts();
-  // }, [tasks])
+  const { tasks, today, user } = useContext(TaskContext);
+  const navigate = useNavigate();
 
   function show() {
     setModalState(true);
@@ -25,13 +24,22 @@ function Dashboard() {
     noOpen = tasks && tasks.filter((e) => e.status === 'open')
   }
 
+  async function logoutHandler() {
+    try {
+      const logout = await axios.post("http://localhost:4000/logout");
+      navigate("/login");
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
   taskCounts();
 
   return (
     <div className="dashboard-container">
       <div className="user">
-        <h3 className="">Welcome Thanush S</h3>
-        <h5 className="">logout</h5>
+        <h3 className="">Welcome {user}</h3>
+        {user ? <h5 className="" onClick={logoutHandler}>logout</h5> : <Link to='/login'><h5 className="">login</h5></Link>}
       </div>
       <div className="stats">
         <div className="task-cards open">

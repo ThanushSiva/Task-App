@@ -2,8 +2,8 @@ const User = require("../model/authModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken")
 
-const createToken = (_id) => {
-    return jwt.sign({ _id }, process.env.SECRET, { expiresIn: '1d' });
+const createToken = (email) => {
+    return jwt.sign({ email }, process.env.SECRET, { expiresIn: '1d' });
 }
 
 exports.home = (req, res) => {
@@ -14,7 +14,6 @@ exports.home = (req, res) => {
 
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
-    console.log("cook",req.cookies);
     try {
         if (!email || !password) {
             throw Error('All fields are needed')
@@ -32,11 +31,11 @@ exports.loginUser = async (req, res) => {
             throw Error('Incorrect password')
         }
 
-        const token = createToken(user._id)
+        const token = createToken(user.email)
 
-        console.log(token);
+        res.cookie("token", token, { expire: "1d", httpOnly: true, sameSite: 'strict' });
 
-        res.status(200).json({ user, token })
+        res.status(200).json({  message: "success" })
 
     } catch (error) {
         res.status(400).json({ error: error.message })
@@ -61,11 +60,17 @@ exports.signupUser = async (req, res) => {
 
         const user = await User.create({ email, password: hash })
 
-        const token = createToken(user._id)
+        const token = createToken(user.email)
 
-        res.status(200).json({ user, token })
+        res.cookie("token", token, { expire: "1d", httpOnly: true, sameSite: 'strict' });
+
+        res.status(200).json({  message: "success" })
 
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
+}
+
+exports.logoutUser = async (req, res) => {
+    return res.clearCookie("token").status(200).json({ message: "successfully logged out" })
 }

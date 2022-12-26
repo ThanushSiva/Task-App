@@ -19,14 +19,14 @@ function Calendar() {
         <select name="year" onChange={e => setYear(e.target.value)}>
           {
             years.map((e, i) => {
-              return <option value={i + 1 + 2000} selected={i + 1 + 2000 === year ? true : false}>{i + 1 + 2000}</option>
+              return <option key={i} value={i + 1 + 2000} selected={i + 1 + 2000 === year ? true : false}>{i + 1 + 2000}</option>
             })
           }
         </select>
         <select name="month" onChange={e => setMonth(e.target.value)}>
           {
             months.map((e, i) => {
-              return <option value={i + 1} selected={i + 1 === month ? true : false}>{e}</option>
+              return <option key={i} value={i + 1} selected={i + 1 === month ? true : false}>{e}</option>
             })
           }
         </select>
@@ -45,23 +45,20 @@ function Calendar() {
           days.map((e, i) => {
             if (i + 1 >= new Date(year + "-" + month + "-01").getDay()) {
               return (
-                // <a href={`#${i - (new Date(year + "-" + month + "-01").getDay() - 2)}`}>
-                <div className={`cal-day ${month == tMonth ? year == tYear ? (i - (new Date(year + "-" + month + "-01").getDay() - 2)) == tDate ? 'curr-date' : '' : '' : ''}`} onClick={(e) => console.log(e.target.innerText)}>
+                <div key={i} className={`cal-day ${month == tMonth ? year == tYear ? (i - (new Date(year + "-" + month + "-01").getDay() - 2)) == tDate ? 'curr-date' : '' : '' : ''}`}>
                   <div className={`cal-date`}>{i - (new Date(year + "-" + month + "-01").getDay() - 2)}</div>
                   <div className="cal-tasks">
-                    {tasks && tasks.map(todo => {
+                    {tasks && tasks.map((todo, j) => {
                       if (new Date(todo.date).toISOString().replace(/T.*/, '').split('-').reverse().join('-') === (i - (new Date(year + "-" + month + "-01").getDay() - 2))+ '-' + month + '-' + year) {
-                        console.log();
-                        return <div className={`cal-task ${'cal-' + todo.priority}`}>{todo.title}</div>
+                        return <div key={j} className={`cal-task ${'cal-' + todo.priority}`}>{todo.title}</div>
                       }
                     })}
                   </div>
                 </div>
-                // </a>
               );
             }
             else {
-              return <div className=""></div>
+              return <div key={i} className=""></div>
             }
           })
         }

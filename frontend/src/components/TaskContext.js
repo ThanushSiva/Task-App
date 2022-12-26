@@ -1,13 +1,13 @@
 import React, { createContext, useEffect, useState } from 'react'
 import axios from 'axios'
 
+axios.defaults.withCredentials = true;
+
 export const TaskContext = createContext();
 
 function TaskProvider({ children }) {
     const [tasks, setTasks] = useState(null);
-    // let noOpen, noClosedToday, noOPToday, noOpenToday;
-
-    // current date
+    const [user, setUser] = useState('')
 
     var today = new Date();
     var dd = today.getDate();
@@ -25,18 +25,18 @@ function TaskProvider({ children }) {
 
     useEffect(() => {
         (async function () {
-            const tempTasks = await axios.post("http://localhost:4000/read");
-            setTasks(tempTasks.data.userTasks.sort((a, b) => new Date(a.date) - new Date(b.date)));
+            try {
+                const tempTasks = await axios.post("http://localhost:4000/read");
+                setUser(tempTasks && tempTasks.data.userTasks[0].email);
+                setTasks(tempTasks.data.userTasks.sort((a, b) => new Date(a.date) - new Date(b.date)));
+            } catch (error) {
+                console.log(error.message);
+            }
         })();
     }, [])
 
-    // noOpenToday = tasks && tasks.filter((e) => (e.status === 'open' || e.status === 'in-progress') && (new Date(e.date).toISOString().replace(/T.*/, '').split('-').reverse().join('-')) === today)
-    // noClosedToday = tasks && tasks.filter((e) => e.status === 'closed' && (new Date(e.date).toISOString().replace(/T.*/, '').split('-').reverse().join('-')) === today)
-    // noOPToday = tasks && tasks.filter((e) => ((new Date(e.date).toISOString().replace(/T.*/, '').split('-').reverse().join('-')) === today))
-    // noOpen = tasks && tasks.filter((e) => e.status === 'open')
-
     return (
-        <TaskContext.Provider value={{ tasks, setTasks, today }}>
+        <TaskContext.Provider value={{ tasks, setTasks, today, user }}>
             {children}
         </TaskContext.Provider>
     )

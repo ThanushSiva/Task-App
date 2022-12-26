@@ -1,10 +1,11 @@
 const Task = require("../model/taskModel");
 
 exports.createTask = async (req, res) => {
+    const email = req.email;
     const { title, date, priority, status, tasks } = req.body;
     try {
         const task = await Task.create({
-            email: "thanush@gmail.com",
+            email,
             title,
             date,
             priority,
@@ -20,8 +21,9 @@ exports.createTask = async (req, res) => {
 }
 
 exports.readTask = async (req, res) => {
+    const email = req.email;
     try {
-        const userTasks = await Task.find({ email: "thanush@gmail.com" })
+        const userTasks = await Task.find({ email })
 
         res.status(200).json({ userTasks })
 
@@ -40,9 +42,10 @@ exports.deleteTask = async (req, res) => {
 }
 
 exports.updateTask = async (req, res) => {
+    const email = req.email;
     try {
         const replaceData = req.body.formData
-        const updateTask = await Task.findOneAndReplace({ _id: req.body._id }, { email: "thanush@gmail.com", ...replaceData }, { new: true })
+        const updateTask = await Task.findOneAndReplace({ _id: req.body._id }, { email, ...replaceData }, { new: true })
         res.status(200).json({ updateTask })
     } catch (error) {
         res.status(400).json({ error: error.message })

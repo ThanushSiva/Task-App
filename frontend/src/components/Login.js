@@ -1,21 +1,22 @@
 import React, { useState } from 'react'
 import './Login.css'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('');
 
+  const navigate = useNavigate()
+
   async function submitHandler(e) {
     e.preventDefault();
     setErrMsg('');
     const userData = { email, password }
-    console.log(userData);
     try {
-      const res = await axios.post("http://localhost:4000/login", userData);
-      console.log(res);
+      const res = await axios.post("http://localhost:4000/login", userData, { withCredentials: true });
+      navigate("/");
     } catch (error) {
       setErrMsg(error.response.data.error);
     }

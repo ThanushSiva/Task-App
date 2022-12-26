@@ -115,7 +115,6 @@ function Modal({ children }) {
         setDisable(true);
         setErrMsg('')
         const taskList = [];
-        console.log(noTask);
         if (noTask > 1) {
             const tempArray = e.target.form.tasklist
             for (let index = 0; index < tempArray.length; index++) {
@@ -140,8 +139,6 @@ function Modal({ children }) {
             status: "open",
             tasks: taskList
         }
-
-        console.log(formData);
 
         if (validator(formData)) {
             setDisable(false);
@@ -225,8 +222,6 @@ function Modal({ children }) {
             setDisable(false);
             return false
         }
-
-        console.log(formData);
 
         try {
             const res = await axios.post("http://localhost:4000/replace", { _id, formData });
