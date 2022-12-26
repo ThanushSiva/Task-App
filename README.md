@@ -2,31 +2,31 @@
 
 **Login Signup**
 
-![screenshot](Screenshot/screenshot01.png)
+<img src="./Screenshot/screenshot01.png" alt="screenshot"/>
 
 **Dashboard**
 
-![screenshot](Screenshot/screenshot02.png)
+<img src="./Screenshot/screenshot02.png" alt="screenshot"/>
 
 **Create Task**
 
-![screenshot](Screenshot/screenshot03.png)
+<img src="./Screenshot/screenshot03.png" alt="screenshot"/>
 
 **Task List**
 
-![screenshot](Screenshot/screenshot04.png)
+<img src="./Screenshot/screenshot04.png" alt="screenshot"/>
 
 **Edit Task**
 
-![screenshot](Screenshot/screenshot05.png)
+<img src="./Screenshot/screenshot05.png" alt="screenshot"/>
 
 **Task List with Filters and Search**
 
-![screenshot](Screenshot/screenshot06.png)
+<img src="./Screenshot/screenshot06.png" alt="screenshot"/>
 
 **Calendar**
 
-![screenshot](Screenshot/screenshot07.png)
+<img src="./Screenshot/screenshot07.png" alt="screenshot"/>
 
 ---
 
