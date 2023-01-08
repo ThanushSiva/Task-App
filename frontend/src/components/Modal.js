@@ -146,7 +146,7 @@ function Modal({ children }) {
         }
 
         try {
-            const res = await axios.post("http://localhost:4000/create", formData);
+            const res = await axios.post("https://task-app-theta.vercel.app/create", formData);
             if (res.status === 200) {
                 toast.success('Task Updated', {
                     position: "top-right",
@@ -224,7 +224,7 @@ function Modal({ children }) {
         }
 
         try {
-            const res = await axios.post("http://localhost:4000/replace", { _id, formData });
+            const res = await axios.post("https://task-app-theta.vercel.app/replace", { _id, formData });
             if (res.status === 200) {
                 toast.success('Task Updated', {
                     position: "top-right",

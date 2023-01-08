@@ -26,7 +26,7 @@ function Dashboard() {
 
   async function logoutHandler() {
     try {
-      const logout = await axios.post("http://localhost:4000/logout");
+      const logout = await axios.post("https://task-app-theta.vercel.app/logout");
       navigate("/login");
     } catch (error) {
       console.log(error.message);

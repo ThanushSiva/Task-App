@@ -26,7 +26,7 @@ function TaskProvider({ children }) {
     useEffect(() => {
         (async function () {
             try {
-                const tempTasks = await axios.post("http://localhost:4000/read");
+                const tempTasks = await axios.post("https://task-app-theta.vercel.app/read");
                 setUser(tempTasks && tempTasks.data.userTasks[0].email);
                 setTasks(tempTasks.data.userTasks.sort((a, b) => new Date(a.date) - new Date(b.date)));
             } catch (error) {

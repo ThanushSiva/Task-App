@@ -15,7 +15,7 @@ function Login() {
     setErrMsg('');
     const userData = { email, password }
     try {
-      const res = await axios.post("http://localhost:4000/login", userData, { withCredentials: true });
+      const res = await axios.post("https://task-app-theta.vercel.app/login", userData, { withCredentials: true });
       navigate("/");
     } catch (error) {
       setErrMsg(error.response.data.error);

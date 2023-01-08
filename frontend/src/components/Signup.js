@@ -13,7 +13,7 @@ function Signup() {
     setErrMsg('');
     const userData = { email, password }
     try {
-      const res = await axios.post("http://localhost:4000/signup", userData);
+      const res = await axios.post("https://task-app-theta.vercel.app/signup", userData);
       console.log(res);
     } catch (error) {
       setErrMsg(error.response.data.error);

@@ -65,7 +65,7 @@ function Tasks() {
     e.target.disabled = true;
     e.target.classList.add('rotate');
     try {
-      const res = await axios.post("http://localhost:4000/update-task", { task_id, tasks_id, isDone })
+      const res = await axios.post("https://task-app-theta.vercel.app/update-task", { task_id, tasks_id, isDone })
       if (res.status === 200) {
         toast.success('Task status updated', {
           position: "top-right",
@@ -109,7 +109,7 @@ function Tasks() {
   async function deleteHandler(e, _id) {
     e.currentTarget.disabled = true;
     try {
-      const res = await axios.post("http://localhost:4000/delete", { _id })
+      const res = await axios.post("https://task-app-theta.vercel.app/delete", { _id })
       if (res.status === 200) {
         toast.success('Task Deleted', {
           position: "top-right",
