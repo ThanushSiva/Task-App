@@ -8,7 +8,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser")
 
 const corsOptions = {
-    origin: "http://localhost:3000", //included origin as true
+    origin: "https://task-app-6dxk.vercel.app", //included origin as true
     credentials: true, //included credentials as true
 };
 
