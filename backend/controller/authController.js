@@ -33,7 +33,7 @@ exports.loginUser = async (req, res) => {
 
         const token = createToken(user.email)
 
-        res.cookie("token", token, { expire: "1d", httpOnly: true, sameSite: 'strict' });
+        res.cookie("token", token, { expire: "1d", httpOnly: true, sameSite: 'none' });
 
         res.status(200).json({  message: "success" })
 
@@ -62,7 +62,7 @@ exports.signupUser = async (req, res) => {
 
         const token = createToken(user.email)
 
-        res.cookie("token", token, { expire: "1d", httpOnly: true, sameSite: 'strict' });
+        res.cookie("token", token, { expire: "1d", httpOnly: true, sameSite: 'none' });
 
         res.status(200).json({  message: "success" })
 
